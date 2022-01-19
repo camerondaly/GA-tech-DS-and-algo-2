@@ -58,6 +58,18 @@ public class Traversals<T extends Comparable<? super T>> {
      */
     public List<T> inorder(TreeNode<T> root) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        List<T> list = new LinkedList<>();
+        list = inHelper(root, list);
+        return list;
+    }
+
+    private List<T> inHelper(TreeNode<T> curr, List<T> res) {
+        if (curr != null) {
+            inHelper(curr.getLeft(), res);
+            res.add(curr.getData());
+            inHelper(curr.getRight(), res);
+        }
+        return res;
     }
 
     /**
@@ -75,5 +87,17 @@ public class Traversals<T extends Comparable<? super T>> {
      */
     public List<T> postorder(TreeNode<T> root) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        List<T> list = new LinkedList<>();
+        list = postHelper(root, list);
+        return list;
+    }
+
+    private List<T> postHelper(TreeNode<T> curr, List<T> res) {
+        if (curr != null) {
+            postHelper(curr.getLeft(), res);
+            postHelper(curr.getRight(), res);
+            res.add(curr.getData());
+        }
+        return res;
     }
 }

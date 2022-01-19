@@ -27,7 +27,21 @@ public class Traversals<T extends Comparable<? super T>> {
      */
     public List<T> preorder(TreeNode<T> root) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        List<T> list = new ArrayList<>();
+        list = preHelper(root, list);
+        return list;
     }
+
+    private List<T> preHelper(TreeNode<T> curr, List<T> res) {
+        if (curr != null) {
+            res.add(curr.getData());
+            preHelper(curr.getLeft(), res);
+            preHelper(curr.getRight(), res);
+        }
+        return res;
+    }
+
+
 
     /**
      * Given the root of a binary search tree, generate an

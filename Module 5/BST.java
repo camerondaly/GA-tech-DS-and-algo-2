@@ -35,6 +35,26 @@ public class BST<T extends Comparable<? super T>> {
      */
     public void add(T data) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        root = addH(data, root);
+    }
+
+    /**
+     * 
+     * @param data
+     * @return The new node
+     */
+    private BSTNode<T> addH(T data, BSTNode curr) {
+        // Recursive helper function. add() is a public wrapper method.
+        if (curr == null) {
+            size++;
+            return new BSTNode<>(data);
+        }
+        if (data.compareTo(curr.getData() > 0) {
+            curr.right = return addH(data, curr.right);
+        } elif (data.compareTo(curr.getData()) < 0) {{
+            curr.left = return addH(data, curr.left);
+        } 
+        return curr;
     }
 
     /**

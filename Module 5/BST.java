@@ -35,12 +35,17 @@ public class BST<T extends Comparable<? super T>> {
      */
     public void add(T data) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        if (data == null) {
+            throw new IllegalArgumentException("Cannot add null data.");
+        }
         root = addH(data, root);
     }
 
     /**
+     * Recursive helper method for the add() function.
      * 
-     * @param data
+     * @param data The data being added in the add() method.
+     * @param curr The current node as we recurse through the tree.
      * @return The new node
      */
     private BSTNode<T> addH(T data, BSTNode<T> curr) {
@@ -87,6 +92,64 @@ public class BST<T extends Comparable<? super T>> {
      */
     public T remove(T data) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        if (data == null) {
+            throw new IllegalArgumentException("Cannot remove null data.");
+        }
+        // We require a dummy node in order to return the removed data.
+        BSTNode<T> dummy = new BSTNode<>(null);
+        root = removeH(data, root, dummy);
+        return dummy.getData();
+    }
+
+    /**
+     * Recursive helper method for the remove() function. Calls successorH() 
+     * as necessary. 
+     * 
+     * @param data The to be removed.
+     * @param curr The current node as we recurse through the tree.
+     * @return The new node.
+     */
+    private BSTNode<T> removeH(T data, BSTNode<T> curr, BSTNode<T> dummy) {
+        if (curr == null) {
+            throw new NoSuchElementException("Data not present in tree.");
+        } else if (data.compareTo(curr.getData()) > 0) {
+            curr.setRight(removeH(data, curr.getRight(), dummy));
+        } else if (data.compareTo(curr.getData()) < 0) {
+            curr.setLeft(removeH(data, curr.getLeft(), dummy));
+        } else {
+            dummy.setData(curr.getData());
+            size--;
+            // Three cases: No child, one child, and two children.
+            if (curr.getLeft() == null && curr.getRight() == null) {
+                return null;
+            } else if (curr.getLeft() == null || curr.getRight() == null) {
+                return (curr.getLeft() == null) ? curr.getRight() : curr.getLeft();
+            } else {
+                BSTNode<T> temp = new BSTNode<>(null);
+                curr.setRight(successorH(curr.getRight(),temp));
+                curr.setData(temp.getData());
+            }
+        }
+        return curr;
+    }
+
+    /**
+     * Establishes the successor node to be used, handles the case where the 
+     * node to be removed has two children. Finds and removes successor. 
+     * 
+     * @param curr The node at which we began the search for the successor.
+     * @param temp A temporary node used to store the successor's data.
+     * @return The successor node which will be the new right child of the node 
+     * we left the helper method at in the recursve stack. Recurses all the way 
+     * to the left to find the successor. 
+     */
+    private BSTNode<T> succcessorH(BSTNode<T> curr, BSTNode<T> temp) {
+        if (curr.getLeft() == null) {
+            temp.setData(curr.getData());
+            return curr.getRight();
+        } else {
+            curr.setLeft(succcessorH(curr.getLeft(), temp));
+        }
     }
 
     /**

@@ -45,15 +45,16 @@ public class BST<T extends Comparable<? super T>> {
      */
     private BSTNode<T> addH(T data, BSTNode<T> curr) {
         // Recursive helper function. add() is a public wrapper method.
+        // base case
         if (curr == null) {
             size++;
             return new BSTNode<>(data);
-        }
-        if (data.compareTo(curr.getData()) > 0) {
+        } else if (data.compareTo(curr.getData()) > 0) {
             curr.setRight(addH(data, curr.getRight()));
         } else if (data.compareTo(curr.getData()) < 0) {
             curr.setLeft(addH(data, curr.getLeft()));
         } 
+        // returns all unchanged nodes back to their parents
         return curr;
     }
 

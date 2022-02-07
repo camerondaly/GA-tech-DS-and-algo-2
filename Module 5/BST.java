@@ -143,13 +143,14 @@ public class BST<T extends Comparable<? super T>> {
      * we left the helper method at in the recursve stack. Recurses all the way 
      * to the left to find the successor. 
      */
-    private BSTNode<T> succcessorH(BSTNode<T> curr, BSTNode<T> temp) {
+    private BSTNode<T> successorH(BSTNode<T> curr, BSTNode<T> temp) {
         if (curr.getLeft() == null) {
             temp.setData(curr.getData());
             return curr.getRight();
         } else {
-            curr.setLeft(succcessorH(curr.getLeft(), temp));
+            curr.setLeft(successorH(curr.getLeft(), temp));
         }
+        return curr;
     }
 
     /**

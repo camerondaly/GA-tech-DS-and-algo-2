@@ -20,10 +20,13 @@ public class Tests {
     }
 
     public static BST<Integer> buildTree(BST<Integer> tree) {
+        // Builds this tree:
+        //
         //            50
         //       15       75
         //   5                100
         //     10
+        // 
         tree.add(50);
         tree.add(15);
         tree.add(75);

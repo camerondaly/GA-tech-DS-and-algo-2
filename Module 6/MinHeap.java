@@ -102,7 +102,7 @@ public class MinHeap<T extends Comparable<? super T>> {
      */
     private T[] upHeap(T[] heap, int i) {
         int parent = Math.floorDiv(i, 2);
-        if (i > 1 && heap[i].compareTo(heap[parent]) < 0) {
+        if (i > 1 && heap[i].compareTo(heap[parent]) > 0) {
             T temp = heap[i];
             heap[i] = heap[parent];
             heap[parent] = temp;

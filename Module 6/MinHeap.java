@@ -123,13 +123,22 @@ public class MinHeap<T extends Comparable<? super T>> {
         int left = i * 2;
         int right = i * 2 + 1;
         if (left <= size || right <= size) {
-            if (heap[left].compareTo(heap[right]) < 0) {
+            if (right > size) {
                 if (heap[i].compareTo(heap[left]) > 0) {
                     T temp = heap[i];
                     heap[i] = heap[left];
                     heap[left] = temp;
                     return downHeap(heap, left);
-                } else if (heap[i].compareTo(heap[left]) > 0) {
+                }
+            } else if (heap[left].compareTo(heap[right]) < 0) {
+                if (heap[i].compareTo(heap[left]) > 0) {
+                    T temp = heap[i];
+                    heap[i] = heap[left];
+                    heap[left] = temp;
+                    return downHeap(heap, left);
+                }
+            } else {
+                if (heap[i].compareTo(heap[right]) > 0) {
                     T temp = heap[i];
                     heap[i] = heap[right];
                     heap[right] = temp;

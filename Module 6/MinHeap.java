@@ -46,8 +46,9 @@ public class MinHeap<T extends Comparable<? super T>> {
         if (size + 1 == backingArray.length) {
             backingArray = resizeBackingArray(backingArray);
         }
-        backingArray[size + 1] = data;
-        backingArray = maxHeapify(backingArray);
+        size++;
+        backingArray[size] = data;
+        backingArray = upHeap(backingArray, size);
     }
 
     /**
@@ -62,6 +63,9 @@ public class MinHeap<T extends Comparable<? super T>> {
      */
     public T remove() {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        T res = backingArray[1];
+        backingArray[1] = backingArray[size];
+        backingArray = downHeap(backingArray, 1);
     }
 
     /**
@@ -82,15 +86,35 @@ public class MinHeap<T extends Comparable<? super T>> {
     }
 
     /**
-     * Heapifies the array to resolve violations of the minHeap data ordering
+     * Recursively upHeaps the array to resolve violations of the minHeap data ordering
      * properties. Compares data with parent until either a swap is not necessary
      * or the root is reached.
-     * 
      *  
-     * @return
+     * @param heap
+     * @param i
+     * @return Valid heap.
      */
-    private T[] maxHeapify(T[] heap) {
+    private T[] upHeap(T[] heap, int i) {
+        int parent = Math.floorDiv(i, 2);
+        if (i > 1 && heap[i].compareTo(heap[parent]) < 0) {
+            T temp = heap[i];
+            heap[i] = heap[parent];
+            heap[parent] = temp;
+            return upHeap(heap, parent);
+        }
+        return heap;
+    }
 
+    /**
+     * Recursively downHeaps data as necessary to ensure valid ordering after
+     * a removal. Stops when leaf is reached or a swap is not necessary. 
+     * 
+     * @param heap
+     * @param i
+     * @return Valid heap.
+     */
+    private T[] downHeap(T[] heap, int i) {
+        
     }
 
     /**

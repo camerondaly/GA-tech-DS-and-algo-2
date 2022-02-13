@@ -63,9 +63,15 @@ public class MinHeap<T extends Comparable<? super T>> {
      */
     public T remove() {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        if (size == 0) {
+            throw new NoSuchElementException("Cannot remove from an empty heap.");
+        }
         T res = backingArray[1];
         backingArray[1] = backingArray[size];
+        backingArray[size] = null;
+        size--;
         backingArray = downHeap(backingArray, 1);
+        return res;
     }
 
     /**
@@ -114,7 +120,24 @@ public class MinHeap<T extends Comparable<? super T>> {
      * @return Valid heap.
      */
     private T[] downHeap(T[] heap, int i) {
-        
+        int left = i * 2;
+        int right = i * 2 + 1;
+        if (left <= size || right <= size) {
+            if (heap[left].compareTo(heap[right]) < 0) {
+                if (heap[i].compareTo(heap[left]) > 0) {
+                    T temp = heap[i];
+                    heap[i] = heap[left];
+                    heap[left] = temp;
+                    return downHeap(heap, left);
+                } else if (heap[i].compareTo(heap[left]) > 0) {
+                    T temp = heap[i];
+                    heap[i] = heap[right];
+                    heap[right] = temp;
+                    return downHeap(heap, right);
+                }
+            }
+        }
+        return heap;
     }
 
     /**

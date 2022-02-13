@@ -40,6 +40,14 @@ public class MinHeap<T extends Comparable<? super T>> {
      */
     public void add(T data) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        if (data == null) {
+            throw new IllegalArgumentException("Cannot add null data.");
+        }
+        if (size + 1 == backingArray.length) {
+            backingArray = resizeBackingArray(backingArray);
+        }
+        backingArray[size + 1] = data;
+        backingArray = maxHeapify(backingArray);
     }
 
     /**
@@ -54,6 +62,35 @@ public class MinHeap<T extends Comparable<? super T>> {
      */
     public T remove() {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+    }
+
+    /**
+     * Handles resizing of backing array by returning a new array with twice
+     * the capacity that contains all of backingArray's data. 
+     * 
+     * Runs in O(n) time.
+     * 
+     * @param prevBackingArray
+     * @return The new backing array.
+     */
+    private T[] resizeBackingArray(T[] prevBackingArray) {
+        T[] newArray= (T[]) new Comparable[prevBackingArray.length * 2];
+        for (int i = 1; i < prevBackingArray.length; i++) {
+            newArray[i] = prevBackingArray[i];
+        }
+        return newArray;
+    }
+
+    /**
+     * Heapifies the array to resolve violations of the minHeap data ordering
+     * properties. Compares data with parent until either a swap is not necessary
+     * or the root is reached.
+     * 
+     *  
+     * @return
+     */
+    private T[] maxHeapify(T[] heap) {
+
     }
 
     /**

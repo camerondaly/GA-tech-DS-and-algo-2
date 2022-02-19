@@ -5,3 +5,4 @@
 <p>Module 4: Tree Traversals<p>
 <p>Module 5: BST Operations and SkipLists<p>
 <p>Module 6: Heaps<p>
+<p>Module 7: HashMaps<p>

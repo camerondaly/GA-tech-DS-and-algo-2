@@ -113,6 +113,34 @@ public class ExternalChainingHashMap<K, V> {
      */
     public V remove(K key) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        if (key == null) {
+            throw new IllegalArgumentException("Cannot remove null data.");
+        }
+        int index = Math.abs(key.hashCode() % table.length);
+        if (table[index] == null) {
+            throw new NoSuchElementException("The key is not in the map."); 
+        } else {
+            ExternalChainingMapEntry<K, V> head = table[index];
+            ExternalChainingMapEntry<K, V> curr = head;
+            while (curr != null) {
+                if (curr.getKey() == key) {
+                    V removedValue = curr.getValue();
+                    if (curr == head) {
+                        table[index] = head.getNext();
+                        return removedValue;
+                    } else {
+                        ExternalChainingMapEntry<K, V> prev = head;
+                        while (prev.getNext() != curr) {
+                            prev = prev.getNext();
+                        }
+                        prev.setNext(curr.getNext());
+                        return removedValue;
+                    }
+                }
+                curr = curr.getNext();
+            }
+            throw new NoSuchElementException("The key is not in the map.");  
+        }
     }
 
     /**

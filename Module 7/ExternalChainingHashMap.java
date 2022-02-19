@@ -124,6 +124,7 @@ public class ExternalChainingHashMap<K, V> {
             ExternalChainingMapEntry<K, V> curr = head;
             while (curr != null) {
                 if (curr.getKey() == key) {
+                    size--;
                     V removedValue = curr.getValue();
                     if (curr == head) {
                         table[index] = head.getNext();
@@ -165,11 +166,13 @@ public class ExternalChainingHashMap<K, V> {
         ExternalChainingMapEntry<K, V>[] prevTable = table;
         table = (ExternalChainingMapEntry<K, V>[]) new ExternalChainingMapEntry[2 * length + 1];
         for (ExternalChainingMapEntry<K, V> x : prevTable) {
-            put(x.getKey(), x.getValue());
-            while (x.getNext() != null) {
-                ExternalChainingMapEntry<K, V> next = x.getNext();
-                put(next.getKey(), next.getValue());
-                x = next;
+            if (x != null) {
+                put(x.getKey(), x.getValue());
+                while (x.getNext() != null) {
+                    ExternalChainingMapEntry<K, V> next = x.getNext();
+                    put(next.getKey(), next.getValue());
+                    x = next;
+                }
             }
         }
     }

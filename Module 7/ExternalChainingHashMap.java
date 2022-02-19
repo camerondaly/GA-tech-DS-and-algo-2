@@ -79,18 +79,18 @@ public class ExternalChainingHashMap<K, V> {
         if ((double)(size + 1) / (double)table.length > MAX_LOAD_FACTOR) {
             resizeBackingTable(table.length);
         }
-        size++;
         int index = Math.abs(key.hashCode() % table.length);
         // check if the index is empty
         if (table[index] == null) {
             table[index] = new ExternalChainingMapEntry(key, value);
+            size++;
             return null;
         } else {
             ExternalChainingMapEntry<K, V> head = table[index];
             ExternalChainingMapEntry<K, V> collisionNode = head;
             // check for duplicate key in the list at the collision site.
             while (collisionNode != null) {
-                if (collisionNode.getKey() == key) {
+                if (collisionNode.getKey().equals(key)) {
                     V removedValue = collisionNode.getValue();
                     collisionNode.setValue(value);
                     return removedValue;
@@ -99,6 +99,7 @@ public class ExternalChainingHashMap<K, V> {
             }
             // add to the head of the LL if no duplicate found.
             table[index] = new ExternalChainingMapEntry<K, V>(key, value, head);
+            size++;
             return null;
         }
     }
@@ -123,7 +124,7 @@ public class ExternalChainingHashMap<K, V> {
             ExternalChainingMapEntry<K, V> head = table[index];
             ExternalChainingMapEntry<K, V> curr = head;
             while (curr != null) {
-                if (curr.getKey() == key) {
+                if (curr.getKey().equals(key)) {
                     size--;
                     V removedValue = curr.getValue();
                     if (curr == head) {
@@ -164,6 +165,7 @@ public class ExternalChainingHashMap<K, V> {
     private void resizeBackingTable(int length) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
         ExternalChainingMapEntry<K, V>[] prevTable = table;
+        size = 0;
         table = (ExternalChainingMapEntry<K, V>[]) new ExternalChainingMapEntry[2 * length + 1];
         for (ExternalChainingMapEntry<K, V> x : prevTable) {
             if (x != null) {

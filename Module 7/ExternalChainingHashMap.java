@@ -71,6 +71,11 @@ public class ExternalChainingHashMap<K, V> {
      */
     public V put(K key, V value) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        // check if value is null and throw exception if so
+        // check if newsize/capacity > maxload and call resize() if needed
+            // resize should occur before adding attempt and before checking
+            // whether or not its a duplicate. Use double division?
+
     }
 
     /**

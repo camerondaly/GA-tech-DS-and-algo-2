@@ -75,6 +75,11 @@ public class ExternalChainingHashMap<K, V> {
         // check if newsize/capacity > maxload and call resize() if needed
             // resize should occur before adding attempt and before checking
             // whether or not its a duplicate. Use double division?
+        if ((double)(size + 1) / (double)table.length > MAX_LOAD_FACTOR) {
+            resizeBackingTable(table.length);
+        }
+        size++;
+
 
     }
 
@@ -109,6 +114,16 @@ public class ExternalChainingHashMap<K, V> {
      */
     private void resizeBackingTable(int length) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
+        ExternalChainingMapEntry<K, V>[] prevTable = table;
+        table = (ExternalChainingMapEntry<K, V>[]) new ExternalChainingMapEntry[2 * length + 1];
+        for (ExternalChainingMapEntry<K, V> x : prevTable) {
+            put(x.getKey(), x.getValue());
+            while (x.getNext() != null) {
+                ExternalChainingMapEntry<K, V> next = x.getNext();
+                put(next.getKey(), next.getValue());
+                x = next;
+            }
+        }
     }
 
     /**

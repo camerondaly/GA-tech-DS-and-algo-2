@@ -71,16 +71,36 @@ public class ExternalChainingHashMap<K, V> {
      */
     public V put(K key, V value) {
         // WRITE YOUR CODE HERE (DO NOT MODIFY METHOD HEADER)!
-        // check if value is null and throw exception if so
-        // check if newsize/capacity > maxload and call resize() if needed
-            // resize should occur before adding attempt and before checking
-            // whether or not its a duplicate. Use double division?
+        // check if key or value is null and throw exception if so
+        if (key == null || value == null) {
+            throw new IllegalArgumentException("Cannot add null keys and/or null values.");
+        }
+        // check if newsize/capacity will be > maxload and call resize() if needed
         if ((double)(size + 1) / (double)table.length > MAX_LOAD_FACTOR) {
             resizeBackingTable(table.length);
         }
         size++;
-
-
+        int index = Math.abs(key.hashCode() % table.length);
+        // check if the index is empty
+        if (table[index] == null) {
+            table[index] = new ExternalChainingMapEntry(key, value);
+            return null;
+        } else {
+            ExternalChainingMapEntry<K, V> head = table[index];
+            ExternalChainingMapEntry<K, V> collisionNode = head;
+            // check for duplicate key in the list at the collision site.
+            while (collisionNode != null) {
+                if (collisionNode.getKey() == key) {
+                    V removedValue = collisionNode.getValue();
+                    collisionNode.setValue(value);
+                    return removedValue;
+                }
+                collisionNode = collisionNode.getNext();
+            }
+            // add to the head of the LL if no duplicate found.
+            table[index] = new ExternalChainingMapEntry<K, V>(key, value, head);
+            return null;
+        }
     }
 
     /**
